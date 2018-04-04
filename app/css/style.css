@@ -1,0 +1,98 @@
+@import url("//fonts.googleapis.com/css?family=Fjalla One|Cabin:400");
+@import url("//fonts.googleapis.com/css?family=Gentium Book Basic|Cabin:400");
+@import url("//fonts.googleapis.com/css?family=Lato|Cabin:400");
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Gentium Book Basic', serif;
+  font-size: 16px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: 'Fjalla One';
+}
+
+h4 {
+  font-weight: bold;
+}
+
+ul {
+  margin-top: 10px;
+}
+
+
+#logo {
+  height: 60px;
+}
+
+#text-identity {
+  font-weight: 700;
+  font-size: 16px;
+  font-family: 'Lato';
+  text-transform: uppercase;
+}
+
+#social {
+  margin:5px;
+  color:#466c8c;
+}
+
+#social:hover{
+  color:#fff;
+}
+
+
+.container-fluid {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+}
+
+.row {
+  flex: 1 0 auto;
+  margin: 10px 15px 30px 15px;
+}
+
+.well {
+  font-size: 14px;
+  /*background-color: #fff;*/
+}
+
+.btn, .btn-default {
+  background-color: #337ab7;
+  color: #fff;
+}
+
+.btn:hover,
+.btn-default:hover,
+.btn-default:focus, 
+.btn-default:active:focus, 
+.btn-default:active:hover {
+  background-color: #466c8c;
+  color: #fff;
+}
+
+.tab-name {
+  font-size: 14px;
+  font-family: 'Lato';
+  text-transform: uppercase;
+}
+
+.footer {
+  flex-shrink: 0;
+  background-color: #1f3641;
+  color: white;
+  font-family: 'Lato';
+  text-align: center;
+  padding: 30px;
+}
