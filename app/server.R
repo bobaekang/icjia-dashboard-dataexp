@@ -2,8 +2,6 @@ library(shiny)
 library(readxl)
 library(ggplot2)
 library(DT)
-library(future)
-library(promises)
 
 
 # DEFINE SERVER LOGIC
@@ -25,14 +23,13 @@ shinyServer(function(input, output) {
     FILE <- input$userData
     if (is.null(FILE)) { return(NULL) }
 
-    future(
+    DATA(
       switch(
         input$sourceFormat,
         "csv" = try(read.csv(FILE$datapath)),
         "excel" = try(read_excel(FILE$datapath, na = c("", "NA")))
-      )      
-    ) %...>%
-      DATA()
+      )
+    )
 
     CLASSES(
       sapply(DATA(), class)

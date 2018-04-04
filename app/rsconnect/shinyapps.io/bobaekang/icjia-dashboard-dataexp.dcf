@@ -1,0 +1,12 @@
+name: icjia-dashboard-dataexp
+title: icjia-dashboard-dataexp
+username:
+account: bobaekang
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 315446
+bundleId: 1302323
+url: https://bobaekang.shinyapps.io/icjia-dashboard-dataexp/
+when: 1522867758.179
+asMultiple: FALSE
+asStatic: FALSE
