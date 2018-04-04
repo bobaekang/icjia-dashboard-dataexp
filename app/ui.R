@@ -2,6 +2,7 @@ library(shiny)
 library(shinycssloaders)
 library(shinyjs)
 library(DT)
+library(plotly)
 
 
 # JAVASCRIPT
@@ -198,9 +199,10 @@ shinyUI(fluidPage(
               "Minimal" = "theme_minimal"
             )
           ),
+          checkboxInput("plotInteractive", "Interactive?", value = FALSE, width = NULL),
           hr(),
           disabled(actionButton("plotBtn", "Generate plot")),
-          downloadButton("downloadBtn", "Download plot")
+          disabled(downloadButton("downloadBtn", "Download plot"))
         )
       )
     ),
@@ -290,7 +292,14 @@ shinyUI(fluidPage(
           br(),
           conditionalPanel(
             condition = "input.plotType != 'none'",
-            withSpinner(plotOutput("PLOT"), type = 4) 
+            conditionalPanel(
+              condition = "input.plotInteractive != true",
+              withSpinner(plotOutput("PLOTS"), type = 4)
+            ),
+            conditionalPanel(
+              condition = "input.plotInteractive == true",
+              withSpinner(plotlyOutput("PLOTI"), type = 4)
+            )
           )
         ),
         id = "tabselected"

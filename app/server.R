@@ -1,7 +1,8 @@
 library(shiny)
 library(readxl)
-library(ggplot2)
 library(DT)
+library(ggplot2)
+library(plotly)
 
 
 # DEFINE SERVER LOGIC
@@ -191,7 +192,10 @@ shinyServer(function(input, output) {
           y = DATA()[, input$varYBar],
           color = DATA()[, input$varColorBar]
         )
-        PLOT(ggplot(data = bar_data, aes(x, y, fill = color)))
+        PLOT(
+          ggplot(data = bar_data, aes(x, y, fill = color)) +
+            guides(fill = guide_legend(title = input$varColorBar))
+        )
       }
       
       PLOT(
@@ -231,7 +235,10 @@ shinyServer(function(input, output) {
           y = DATA()[, input$varYLine],
           color = DATA()[, input$varColorLine]
         )
-        PLOT(ggplot(data = line_data, aes(x, y, color = color)))
+        PLOT(
+          ggplot(data = line_data, aes(x, y, color = color)) +
+            guides(color = guide_legend(title = input$varColorLine))
+        )
       }
       
       PLOT(
@@ -259,7 +266,10 @@ shinyServer(function(input, output) {
           color = DATA()[, input$varColorPoint]
         )
         
-        PLOT(ggplot(data = point_data, aes(x, y, color = color)))
+        PLOT(
+          ggplot(data = point_data, aes(x, y, color = color)) +
+            guides(color = guide_legend(title = input$varColorPoint))
+        )
       } else if (input$varColorPoint == 0 & input$varSizePoint != 0) {
         point_data <- data.frame(
           x = DATA()[, input$varXPoint],
@@ -267,7 +277,10 @@ shinyServer(function(input, output) {
           size = DATA()[, input$varSizePoint]
         )
         
-        PLOT(ggplot(data = point_data, aes(x, y, size = size)))
+        PLOT(
+          ggplot(data = point_data, aes(x, y, size = size)) +
+            guides(size = guide_legend(title = input$varSizePoint))
+        )
       } else {
         point_data <- data.frame(
           x = DATA()[, input$varXPoint],
@@ -276,7 +289,13 @@ shinyServer(function(input, output) {
           size = DATA()[, input$varSizePoint]
         )
         
-        PLOT(ggplot(data = point_data, aes(x, y, color = color, size = size)))
+        PLOT(
+          ggplot(data = point_data, aes(x, y, color = color, size = size)) +
+            guides(
+              color = guide_legend(title = input$varColorPoint),
+              size = guide_legend(title = input$varSizePoint)
+            )
+        )
       }
       
       PLOT(
@@ -300,7 +319,14 @@ shinyServer(function(input, output) {
     }
     
     p <- isolate(PLOT())
-    output$PLOT <- renderPlot(p)
+    
+    # interactive?
+    if (input$plotInteractive) {
+      p <- ggplotly(p)
+      output$PLOTI <- renderPlotly(p)
+    } else {
+      output$PLOTS <- renderPlot(p)
+    }
     
   })
 
@@ -349,6 +375,15 @@ shinyServer(function(input, output) {
         })
       } else {
         shinyjs::disable("plotBtn")
+      }
+    })
+    
+    # download plot button
+    observeEvent(input$plotInteractive, {
+      if (!input$plotInteractive) {
+        shinyjs::enable("downloadBtn")
+      } else {
+        shinyjs::disable("downloadBtn")
       }
     })
   })
